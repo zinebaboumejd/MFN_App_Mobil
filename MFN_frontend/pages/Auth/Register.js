@@ -1,4 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { useState } from "react";
 import {
   StyleSheet,
@@ -9,9 +10,14 @@ import {
   Dimensions,
   TextInput,
   Button,
+  TouchableOpacity
 } from "react-native";
 
-const Register = ({ navigation }) => {
+const Register = () => {
+
+  const navigation = useNavigation();
+
+
   const [nom, setNom] = useState("");
   const [ice, setIce] = useState("");
   const [telephone, setTelephone] = useState("");
@@ -123,24 +129,38 @@ const Register = ({ navigation }) => {
               value={data.ice}
               onChangeText={(value) => handleChange("ice", value)}
             />
-             <TextInput
-              style={{ borderBottomWidth: 1, borderBottomColor: '#4632A1', paddingBottom: 10 , marginTop: 20 }}
+            <TextInput
+              style={{ borderBottomWidth: 1, borderBottomColor: '#4632A1', paddingBottom: 10, marginTop: 20 }}
               placeholder='Telephone'
               onChangeText={(value) => handleChange("telephone", value)}
             />
-              <TextInput
-              style={{ borderBottomWidth: 1, borderBottomColor: '#4632A1', paddingBottom: 10 , marginTop: 20 }}
+            <TextInput
+              style={{ borderBottomWidth: 1, borderBottomColor: '#4632A1', paddingBottom: 10, marginTop: 20 }}
               placeholder='Adresse'
               onChangeText={(value) => handleChange("adresse", value)}
             />
             {/* localisation map */}
-             <TextInput
+   <TouchableOpacity onPress={() => navigation.navigate('Maps')}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: '#4632A1', borderRadius: 5, padding: 10 }}>
+        <Icon name="map-marker" size={20} color="#4632A1" style={{ marginRight: 10 }} />
+        <TextInput
+          style={{ flex: 1 }}
+          placeholder='Localisation'
+          onChangeText={(value) => handleChange("localisation", value)}
+        />
+        <Text style={{ color: '#4632A1', fontWeight: 'bold' }}>OK</Text>
+      </View>
+    </TouchableOpacity>
+
+            {/* <TextInput
               style={{ borderBottomWidth: 1, borderBottomColor: '#4632A1', paddingBottom: 10 , marginTop: 20 }}
               placeholder='Localisation'
               onChangeText={(value) => handleChange("localisation", value)}
-            />
+            >
+               <Icon name="map-marker" size={20} style={{ marginRight: 20 }}  color="#4632A1" />
+            </TextInput> */}
             <TextInput
-              style={{ borderBottomWidth: 1, borderBottomColor: '#4632A1', paddingBottom: 10 , marginTop: 20 }}
+              style={{ borderBottomWidth: 1, borderBottomColor: '#4632A1', paddingBottom: 10, marginTop: 20 }}
               placeholder='Email'
               onChangeText={(value) => handleChange("email", value)}
             />
@@ -151,12 +171,12 @@ const Register = ({ navigation }) => {
             />
             <View style={{ alignItems: 'flex-end', marginTop: 20 }}>
               <Text style={{ color: 'red', fontStyle: 'italic' }}>Forgot Password?</Text>
-              </View>
+            </View>
             <View style={{ marginTop: 50 }}>
-              <Button title='Login' color='#4632A1' 
+              <Button title='Login' color='#4632A1'
                 onPress={handleSubmit}
               />
-              </View>
+            </View>
           </View>
         </View>
       </View>

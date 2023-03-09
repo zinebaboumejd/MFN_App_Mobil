@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import Login from './pages/Auth/Login'
 import Register from './pages/Auth/Register';
+import Maps from './pages/Maps';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // Drawer with bottom tabs in React Native
@@ -18,9 +19,11 @@ export default function App() {
     // tap navigator
     <NavigationContainer>
     
-      <Stack.Navigator>  
+      <Stack.Navigator>      
+      
         <Stack.Screen name="Register" component={Register} />
          <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Maps" component={Maps} />
         
       </Stack.Navigator>
 
