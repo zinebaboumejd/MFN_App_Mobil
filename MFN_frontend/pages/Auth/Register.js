@@ -13,9 +13,17 @@ import {
   TouchableOpacity
 } from "react-native";
 
-const Register = () => {
+const Register = ({navigation,route}) => {
+  const navigate = useNavigation();
+ // Exemple de données
+const pin = {
+  latitude: 32.3023,
+  longitude: -9.2411,
+};
 
-  const navigation = useNavigation();
+// Stocker les coordonnées dans des variables séparées
+const [latitude, setLatitude] = useState(pin.latitude);
+const [longitude, setLongitude] = useState(pin.longitude);
 
 
   const [nom, setNom] = useState("");
@@ -67,14 +75,13 @@ const Register = () => {
       .then((res) => {
         setLoading(false);
         console.log(res.data);
-        navigation.navigate("Login");
+        navigate.navigate("Login");
       })
       .catch((err) => {
         setLoading(false);
         console.log(err);
       });
   };
-
   const handleShowData = () => {
     console.log(data);
   };
@@ -94,17 +101,30 @@ const Register = () => {
       </ImageBackground>
       <View style={styles.bottomView}>
         <View style={{ padding: 40 }}>
+          {/* tester props existe ou non  */}
+{
+  route.params && route.params.pin ? (
+    <>
+    <Text>
+      {/* afficher key pin */}
+      {route.params.pin.latitude}
+    </Text>
+    <Text>
+      {route.params.pin.longitude}
+    </Text>
+    </>
+  ) : (
+    <Text>no pin</Text>
+  )
+}
           <Text style={{ color: "#4632A1", fontSize: 50 }}> Welcome </Text>
-          <Text>
-            {" "}
-            Dont't have an account?{" "}
+          <Text> Dont't have an account?</Text>
             <Text
               style={{ color: "red", fontStyle: "italic" }}
-              onPress={() => navigation.navigate("Login")}
+              onPress={() => navigate.navigate("Login")}
             >
               Login
             </Text>
-          </Text>
 
           <View style={{ marginTop: 20 }}>
             <TextInput
@@ -140,15 +160,27 @@ const Register = () => {
               onChangeText={(value) => handleChange("adresse", value)}
             />
             {/* localisation map */}
-   <TouchableOpacity onPress={() => navigation.navigate('Maps')}>
+   <TouchableOpacity onPress={() => navigate.navigate('Maps')}>
       <View style={{ flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: '#4632A1', borderRadius: 5, padding: 10 }}>
         <Icon name="map-marker" size={20} color="#4632A1" style={{ marginRight: 10 }} />
+        {
+  route.params && route.params.pin ? (
+<>
         <TextInput
           style={{ flex: 1 }}
           placeholder='Localisation'
           onChangeText={(value) => handleChange("localisation", value)}
+          value={
+            route.params.pin.latitude + ' ' + route.params.pin.longitude
+          }
+            
         />
         <Text style={{ color: '#4632A1', fontWeight: 'bold' }}>OK</Text>
+        </>
+  ) : (
+    <Text style={{ color: '#4632A1', fontWeight: 'bold' }}>Localisation</Text>
+  )
+}
       </View>
     </TouchableOpacity>
 
@@ -173,7 +205,7 @@ const Register = () => {
               <Text style={{ color: 'red', fontStyle: 'italic' }}>Forgot Password?</Text>
             </View>
             <View style={{ marginTop: 50 }}>
-              <Button title='Login' color='#4632A1'
+              <Button title='Register' color='#4632A1'
                 onPress={handleSubmit}
               />
             </View>
