@@ -28,7 +28,7 @@ export default function Maps({ navigation }) {
                 latitude: location.coords.latitude,
                 longitude: location.coords.longitude,
             })
-            console.log("location", location)
+            // console.log("location", location)
         })();
     }, []);
     return (
@@ -49,7 +49,7 @@ export default function Maps({ navigation }) {
                             latitude: e.nativeEvent.coordinate.latitude,
                             longitude: e.nativeEvent.coordinate.longitude,
                         })
-                        console.log("pin", pin)
+                        // console.log("pin", pin)
                     }
                     }
                 >
