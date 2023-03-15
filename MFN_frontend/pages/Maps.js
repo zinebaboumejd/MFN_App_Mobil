@@ -6,29 +6,27 @@ import MapView, { Callout, Circle, Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 
 export default function Maps({ navigation }) {
-    const [pin, setPin] = useState(
-        {
-            latitude: 32.3023,
-            longitude: -9.2411,
-        }
-    )
+    const [pin, setPin] = useState({        })
+   
+    
     const [location, setLocation] = useState(null);
+    console.log("pin ", pin)
+    console.log("location ", location)
+
     useEffect(() => {
         (async () => {
-
             let { status } = await Location.requestForegroundPermissionsAsync();
             if (status !== 'granted') {
                 setErrorMsg('Permission to access location was denied');
                 return;
             }
-
             let location = await Location.getCurrentPositionAsync({});
             setLocation(location);
             setPin({
                 latitude: location.coords.latitude,
                 longitude: location.coords.longitude,
             })
-            // console.log("location", location)
+            console.log("location", location)
         })();
     }, []);
     return (
@@ -41,7 +39,7 @@ export default function Maps({ navigation }) {
                     coordinate={pin}
                     title="My Marker"
                     description="Some description"
-                    pinColor='gold'
+                    pinColor='red'
                     draggable={true}
                     onDragEnd={(e) => {
                         console.log(e.nativeEvent.coordinate)

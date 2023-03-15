@@ -20,17 +20,15 @@ const UserSchema = mongoose.Schema(
     },
 
     localisation:{
-      type: {
-        type: String,
-        enum: ['Point'],
-        required: true
+      latitude:{
+        type: Number,
+        required: [true, "S'il vous plaît entrez votre latitude"],
       },
-      coordinates: {
-        type: [Number],
-        required: true
+      longitude:{
+        type: Number,
+        required: [true, "S'il vous plaît entrez votre longitude"],
       }
     },
-    
     email: {
       type: String,
       required: [true, "S'il vous plaît entrez votre email"],

@@ -21,6 +21,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // Routes
 app.use("/auth", require("./src/Auth/routes/authRoute"));
+app.use("/societes", require("./src/societes/routes/societeRoute"));
 
 app.use(errorHandler);
 const server=app.listen(port, () => console.log(`Server started on port ${port}`));

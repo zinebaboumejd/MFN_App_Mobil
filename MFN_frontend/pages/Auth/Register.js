@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import axios from "axios";
 import {
   StyleSheet,
   ScrollView,
@@ -14,36 +15,85 @@ import {
 } from "react-native";
 
 const Register = ({ navigation, route }) => {
+  // setLoading
+  const [isLoading, setLoading] = useState(false);
   const navigate = useNavigation();
-if(
-  route.params && route.params.pin
-){
-  var localisation = [
-    route.params.pin.latitude,
-    route.params.pin.longitude
-  ];
-}
-else{
-  var localisation = [0,0]
-}
-console.log("localisation []:",localisation)
 
+  const [localisation, setLocalisation] = useState([]);
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
+  
+  if (route.params && route.params.pin && localisation.length === 0) {
+    setLocalisation([route.params.pin.latitude, route.params.pin.longitude]);
+    setLatitude(route.params.pin.latitude);
+    setLongitude(route.params.pin.longitude);
+  }
+  
+  console.log("localisation", localisation);
+  console.log("latitude", latitude);
+  console.log("longitude", longitude);
+  
   const [data, setData] = useState({
     nom: "",
     ice: "",
-    telephone: "",
+    tel: "",
     adresse: "",
-    localisation: localisation,
-    email:"",
-    password:""
+    localisation: { latitude: latitude, longitude: longitude },
+    email: "",
+    password: "",
   });
   
-  const handleChange = (name, value) => {
-    setData({ ...data, [name]: value });
-  };
+  function handleChange(key, value) {
+    setData({
+      ...data,
+      [key]: key === "localisation" ? { latitude: latitude, longitude: longitude } : value,
+    });
+  }
+  
+  useEffect(() => {
+    setData({
+      ...data,
+      localisation: { latitude: latitude, longitude: longitude },
+    });
+  }, [latitude, longitude]);
+  //  handleSubmit
   const handleSubmit = () => {
-    console.log(data);
-  };
+    setLoading(true);
+    axios({
+        method: "post",
+        url: "http://192.168.9.46:9000/auth/register",
+        data: {
+            nom: data.nom,
+            ice: data.ice,
+            tel: data.tel,
+            adresse: data.adresse,
+            localisation: data.localisation,
+            email: data.email,
+            password: data.password,
+        },
+
+
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+        .then((res) => {
+            setLoading(false);
+            console.log(res.data);
+            navigation.navigate("Login");
+        }
+        )
+        .catch((err) => {
+            setLoading(false);
+            console.log(err);
+        }
+        );
+
+  }
+
+  console.log(data)
+
+
 
   return (
     <ScrollView
@@ -105,17 +155,18 @@ console.log("localisation []:",localisation)
               }}
               placeholder="ICE"
               value={data.ice}
-            onChangeText={(value) => handleChange("ice", value)}
+              onChangeText={(value) => handleChange("ice", value)}
             />
             <TextInput
               style={{ borderBottomWidth: 1, borderBottomColor: '#4632A1', paddingBottom: 10, marginTop: 20 }}
-              placeholder='Telephone'
-            onChangeText={(value) => handleChange("telephone", value)}
+              placeholder='tel'
+              onChangeText={(value) => handleChange("tel", value)}
             />
             <TextInput
               style={{ borderBottomWidth: 1, borderBottomColor: '#4632A1', paddingBottom: 10, marginTop: 20 }}
               placeholder='Adresse'
-            onChangeText={(value) => handleChange("adresse", value)}
+              value={data.adresse}
+              onChangeText={(value) => handleChange("adresse", value)}
             />
             {/* localisation map */}
             <TouchableOpacity onPress={() => navigate.navigate('Maps')}>
@@ -127,10 +178,10 @@ console.log("localisation []:",localisation)
                       <TextInput
                         style={{ flex: 1 }}
                         placeholder='Localisation'
-                        onChangeText={(value) => handleChange("localisation", value)}
                         value={
                           route.params.pin.latitude + ' ' + route.params.pin.longitude
                         }
+                        onChangeText={(value) => handleChange("localisation", value)}
                       />
                       <Text style={{ color: '#4632A1', fontWeight: 'bold' }}>OK</Text>
                     </>
@@ -143,19 +194,20 @@ console.log("localisation []:",localisation)
             <TextInput
               style={{ borderBottomWidth: 1, borderBottomColor: '#4632A1', paddingBottom: 10, marginTop: 20 }}
               placeholder='Email'
-            onChangeText={(value) => handleChange("email", value)}
+              onChangeText={(value) => handleChange("email", value)}
             />
             <TextInput
               style={{ borderBottomWidth: 1, borderBottomColor: '#4632A1', paddingBottom: 10, marginTop: 20 }}
               placeholder='Password'
-            onChangeText={(value) => handleChange("password", value)}
+              onChangeText={(value) => handleChange("password", value)}
+              secureTextEntry={true}
             />
             <View style={{ alignItems: 'flex-end', marginTop: 20 }}>
               <Text style={{ color: 'red', fontStyle: 'italic' }}>Forgot Password?</Text>
             </View>
             <View style={{ marginTop: 50 }}>
               <Button title='Register' color='#4632A1'
-              onPress={handleSubmit}
+                onPress={handleSubmit}
               />
             </View>
           </View>

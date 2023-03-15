@@ -1,10 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-
+import { Icon } from 'react-native-vector-icons';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Login from './pages/Auth/Login'
 import Register from './pages/Auth/Register';
 import Maps from './pages/Maps';
+import Home from './pages/Home';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // Drawer with bottom tabs in React Native
@@ -19,12 +21,11 @@ export default function App() {
     // tap navigator
     <NavigationContainer>
     
-      <Stack.Navigator>      
-      
+      <Stack.Navigator>
+      <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
-         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Maps" component={Maps} />
-        
       </Stack.Navigator>
 
     </NavigationContainer>

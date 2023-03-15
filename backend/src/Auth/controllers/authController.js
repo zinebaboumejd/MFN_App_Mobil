@@ -67,7 +67,6 @@ const login = asyncHandler(async (req, res) => {
       ice: user.ice,
       email: user.email,
       role: user.role,
-
       token: generateToken(user._id),
     });
   } else {

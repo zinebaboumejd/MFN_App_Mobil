@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
-// const { register,login } = require("../controllers/societeController");
+const { getSociete } = require("../controllers/societeController");
 
+router.route("/getSociete").get(getSociete);
 
 
 

@@ -11,11 +11,6 @@ const SocieteSchema = mongoose.Schema(
       sparse: true // permet à certains documents de ne pas avoir le champ 'ice'
     },
     localisation:{
-      type: {
-        type: String,
-        enum: ['Point'],
-        required: true
-      },
       coordinates: {
         type: [Number],
         required: true
