@@ -1,10 +1,8 @@
 import React,{useState,useEffect} from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View ,Image} from 'react-native';
+import { StyleSheet, View ,Image,Button} from 'react-native';
 import MapView ,{Marker}from 'react-native-maps';
 import icon from '../assets/containers.png'
 import axios from "axios";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Home({navigation}) {
 
@@ -23,10 +21,19 @@ export default function Home({navigation}) {
     }, []);
     
     console.log("markers",markers)
-  
+
+    function handleGoToMaps() {
+      navigation.navigate('Maps');
+    }
 
   return (
     <View style={styles.container}>
+        <View style={styles.ButtonTop}>
+      <Button  title="Aller à l'écran Login" onPress={() => navigation.navigate('Login')} />
+    </View>
+    <View style={styles.ButtonEnd}>
+      <Button  title="Aller à l'écran ListData" onPress={() => navigation.navigate('ListData')} />
+    </View>
       <MapView
         style={styles.map}
         initialRegion={{
@@ -68,4 +75,19 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
   },
+  ButtonTop:{
+    position: 'absolute',
+    top: 50,
+    zIndex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    borderRadius: 20,
+  },
+  ButtonEnd:{
+    position: 'absolute',
+    bottom: 50,
+    zIndex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    borderRadius: 20,
+  },
+ 
 });

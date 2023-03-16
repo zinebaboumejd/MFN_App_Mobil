@@ -109,12 +109,12 @@ const Register = ({ navigation, route }) => {
       </ImageBackground>
       <View style={styles.bottomView}>
         <View style={{ padding: 40 }}>
-          {/* tester props existe ou non  */}
+{/*         
           {
             route.params && route.params.pin ? (
               <>
                 <Text>
-                  {/* afficher key pin */}
+            
                   {route.params.pin.latitude}
                 </Text>
                 <Text>
@@ -124,7 +124,7 @@ const Register = ({ navigation, route }) => {
             ) : (
               <Text>no pin</Text>
             )
-          }
+          } */}
           <Text style={{ color: "#4632A1", fontSize: 50 }}> Welcome </Text>
           <Text> Dont't have an account?</Text>
           <Text
